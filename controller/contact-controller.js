@@ -6,7 +6,6 @@ const createContact = async (req, res) => {
     try {
         const response = req.body;
         await Contact.create(response);
-        console.log('New contact saved:', response);
         notifier.notify({
             title: 'New Contact Form Submission',
             message: `New message from ${response.firstname} ${response.lastname}`,
@@ -18,7 +17,6 @@ const createContact = async (req, res) => {
         );
         return res.status(200).json({ message: 'Message sent successfully' });
     } catch (error) {
-        console.error('Error saving contact:', error);
         notifier.notify({
             title: 'Error Saving Contact',
             message: error.message,
@@ -28,6 +26,4 @@ const createContact = async (req, res) => {
 };
 
 module.exports = { createContact };
-
-
 
