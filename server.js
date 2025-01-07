@@ -12,6 +12,9 @@ const PORT = process.env.PORT || 4000;
 const MONGO_URI = process.env.MONGO_URI;
 const FRONTEND_URL = process.env.FRONTEND_URL;
 
+console.log('MONGO_URI:', MONGO_URI);
+console.log('FRONTEND_URL:', FRONTEND_URL);
+
 // Update the CORS configuration to allow requests from your frontend URL
 app.use(cors({ origin: FRONTEND_URL }));
 app.use(bodyParser.json());
@@ -53,5 +56,4 @@ app.listen(PORT, () => {
         message: `Server is running on port ${PORT}`,
     });
 });
-
 
