@@ -10,8 +10,10 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 4000;
 const MONGO_URI = process.env.MONGO_URI;
+const FRONTEND_URL = process.env.FRONTEND_URL;
 
-app.use(cors({ origin: 'http://localhost:3001' }));
+// Update the CORS configuration to allow requests from your frontend URL
+app.use(cors({ origin: FRONTEND_URL }));
 app.use(bodyParser.json());
 
 // Connect to MongoDB
