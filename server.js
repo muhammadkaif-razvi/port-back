@@ -16,7 +16,7 @@ console.log('MONGO_URI:', MONGO_URI);
 console.log('FRONTEND_URL:', FRONTEND_URL);
 
 // Update the CORS configuration to allow requests from your frontend URL
-app.use(cors({ origin: FRONTEND_URL }));
+app.use(cors({ origin: FRONTEND_URL, methods: ['GET', 'POST'] }));
 app.use(bodyParser.json());
 
 // Connect to MongoDB
