@@ -19,12 +19,14 @@ app.use(bodyParser.json());
 // Connect to MongoDB
 mongoose.connect(MONGO_URI)
     .then(() => {
+        console.log('MongoDB connected successfully');
         notifier.notify({
             title: 'MongoDB Notification',
             message: 'MongoDB connected successfully',
         });
     })
     .catch((error) => {
+        console.error('MongoDB connection error:', error);
         notifier.notify({
             title: 'MongoDB Notification',
             message: `MongoDB connection error: ${error.message}`,
@@ -36,6 +38,7 @@ app.use("/", contactRouter);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
+    console.error('Server error:', err);
     notifier.notify({
         title: 'Server Error',
         message: `Error: ${err.message}`,
@@ -44,11 +47,11 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
     notifier.notify({
         title: 'Server Notification',
         message: `Server is running on port ${PORT}`,
     });
 });
-
 
 

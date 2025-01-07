@@ -20,13 +20,17 @@ const sendMail = (to, subject, text) => {
         text,
     };
 
+    console.log('Sending email with the following options:', mailOptions);
+
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
+            console.error('Error sending email:', error);
             notifier.notify({
                 title: 'Email Sending Error',
                 message: error.message,
             });
         } else {
+            console.log('Email sent successfully:', info.response);
             notifier.notify({
                 title: 'Email Sent',
                 message: 'Email sent successfully',
@@ -36,3 +40,4 @@ const sendMail = (to, subject, text) => {
 };
 
 module.exports = sendMail;
+

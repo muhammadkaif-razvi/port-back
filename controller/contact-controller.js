@@ -5,7 +5,9 @@ const sendMail = require('../mailer'); // Adjust the path as needed
 const createContact = async (req, res) => {
     try {
         const response = req.body;
+        console.log('Received contact form submission:', response);
         await Contact.create(response);
+        console.log('Contact saved to database');
         notifier.notify({
             title: 'New Contact Form Submission',
             message: `New message from ${response.firstname} ${response.lastname}`,
@@ -15,8 +17,10 @@ const createContact = async (req, res) => {
             'New Contact Form Submission',
             `You have a new message from ${response.firstname} ${response.lastname}.\n\nEmail: ${response.email}\nService: ${response.service}\nMessage: ${response.message}`
         );
+        console.log('Notification sent and email dispatched');
         return res.status(200).json({ message: 'Message sent successfully' });
     } catch (error) {
+        console.error('Error saving contact:', error);
         notifier.notify({
             title: 'Error Saving Contact',
             message: error.message,
@@ -26,4 +30,3 @@ const createContact = async (req, res) => {
 };
 
 module.exports = { createContact };
-
