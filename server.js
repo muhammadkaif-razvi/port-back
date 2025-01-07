@@ -56,4 +56,3 @@ app.listen(PORT, () => {
         message: `Server is running on port ${PORT}`,
     });
 });
-
