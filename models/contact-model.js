@@ -18,12 +18,13 @@ const contactSchema = new Schema({
     type: String,
     required: true,
     enum: ['Web Development', 'Frontend Development', 'Backend Development'], // Replace with your actual services
-
   },
   message: {
     type: String,
     required: true,
   },
+}, {
+  timestamps: true, // Automatically add createdAt and updatedAt fields
 });
 
 const Contact = model('Contact', contactSchema);

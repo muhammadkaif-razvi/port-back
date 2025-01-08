@@ -5,12 +5,26 @@ const contactRouter = require("./routes/contact-router");
 const cors = require('cors');
 const notifier = require("node-notifier");
 const bodyParser = require('body-parser');
+const winston = require('winston'); // for logging
 
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 4000;
 const MONGO_URI = process.env.MONGO_URI;
 const FRONTEND_URL = process.env.FRONTEND_URL;
+
+// Configure logger
+const logger = winston.createLogger({
+    level: 'info',
+    format: winston.format.combine(
+        winston.format.timestamp(),
+        winston.format.json()
+    ),
+    transports: [
+        new winston.transports.Console(),
+        new winston.transports.File({ filename: 'app.log' })
+    ],
+});
 
 console.log('MONGO_URI:', MONGO_URI);
 console.log('FRONTEND_URL:', FRONTEND_URL);
@@ -22,14 +36,14 @@ app.use(bodyParser.json());
 // Connect to MongoDB
 mongoose.connect(MONGO_URI)
     .then(() => {
-        console.log('MongoDB connected successfully');
+        logger.info('MongoDB connected successfully');
         notifier.notify({
             title: 'MongoDB Notification',
             message: 'MongoDB connected successfully',
         });
     })
     .catch((error) => {
-        console.error('MongoDB connection error:', error);
+        logger.error('MongoDB connection error:', error);
         notifier.notify({
             title: 'MongoDB Notification',
             message: `MongoDB connection error: ${error.message}`,
@@ -41,7 +55,7 @@ app.use("/", contactRouter);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
-    console.error('Server error:', err);
+    logger.error('Server error:', err);
     notifier.notify({
         title: 'Server Error',
         message: `Error: ${err.message}`,
@@ -50,9 +64,10 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+    logger.info(`Server is running on port ${PORT}`);
     notifier.notify({
         title: 'Server Notification',
         message: `Server is running on port ${PORT}`,
     });
 });
+
